@@ -12,7 +12,12 @@ Funcionalidades para bolinha:
 - Entradas: Ângulo, velocidade e gravidade(Não sei se colocamos para o usuario escolher ou deixamos em 9.8)
 - Caso a bolinha bata no gorila apenas uma vez, o jogador que jogou ganha
 - Caso a bolinha bata no prédio (ou passarinho) ele explode
-
+====================================================================================================
+Niveis: (Ideia!)
+- Fácil: Turnos de 1 min/ Sem vento/ 2-Hit kill(?)
+- Médio: Turnos com tempo reduzido(A discutir)/ Sem vento(?)/ 2-Hit kill/ Obstáculos(Pássaro{?})
+- Difícil: Turnos com tempo ainda mais curto/ Vento gerado de forma random/ 1-Hit Kill/ Obstáculos
+====================================================================================================
 As configurações podem ser feitas quando usuário iniciar o jogo ou disponibilizando uma opção no menu de entrada. Cada grupo decide como fazer.
 
 como instalar o curses: pip install windows-curses
