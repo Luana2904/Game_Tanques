@@ -5,25 +5,59 @@ from curses.textpad import Textbox, rectangle
 from random import shuffle, randrange
 import math
 
-begin_x = 20
-begin_y = 7
-height = 20
-width = 15
+# o x aumenta de 20 em 20 e o y é 49-valor da range
+POSICAO_Y = random.randrange(10,25,5)
+POSICAO_X = 28
+
+#Define a posição da bolinha
+if (POSICAO_Y == 10):
+    BOLINHA = [[POSICAO_Y+23, 15]] #10,20,15
+elif (POSICAO_Y == 15):
+    BOLINHA = [[POSICAO_Y+13, 15]]
+elif (POSICAO_Y == 20):
+    BOLINHA = [[POSICAO_Y+3, 15]]
 
 def colunas(stdscr):
-    e = e
+    curses.init_pair(1, curses.COLOR_YELLOW, curses.COLOR_YELLOW)
+    COR1 = curses.color_pair(1)
+    text = 'O'
 
+    stdscr.addstr(BOLINHA[0][0], BOLINHA[0][1], '0')
+    stdscr.addstr(BOLINHA[0][0], BOLINHA[0][1]-9, "OOOOOOO") #+"\n"+"()"+"\n"+"| |"
 
-def boneco(stdscr):
-    e=e
+    #Define a posição, altura e largura das colunas
+    for i in range(1):
+        for y in range(POSICAO_Y):
+            for x in range(POSICAO_X):
+                c = int(25)*int(i)
+                stdscr.addstr(y+46-POSICAO_Y,x+4+c,text, COR1)
+                #stdscr.addstr(y+47-posicao_y,x+25+c, '')
+    
+    for i in range(6):
+        POSICAO_Y2 = random.randrange(10,25,5) 
+        for y in range(POSICAO_Y2):
+            for x in range(POSICAO_X):
+                d = int(25)*int(i)+25
+                stdscr.addstr(y+46-POSICAO_Y2,x+4+d,text, COR1)
+                #stdscr.addstr(y+47-posicao_y,x+25+c, '')
 
-def entradas(stdscr):
-    #-------------------------TEXTBOX---------------------------------
-    entradas_win = curses.newwin(3, 18, 2, 2)
-    entradas_box = Textbox(entradas_win)
+    for i in range(1):
+        POSICAO_Y3 = random.randrange(10,25,5)
+        for y in range(POSICAO_Y3):
+            for x in range(POSICAO_X):
+                a = int(25)*int(i)+175
+                stdscr.addstr(y+46-POSICAO_Y3,x+4+a,text, COR1)
+                #stdscr.addstr(y+47-posicao_y,x+25+c, '')
 
-    rectangle(stdscr, 1, 1, 5, 20)
+    if (POSICAO_Y3 == 10):
+        BOLINHA2 = [[POSICAO_Y3+23, 200]] #10,20,15
+    elif (POSICAO_Y3 == 15):
+        BOLINHA2 = [[POSICAO_Y3+13, 200]]
+    elif (POSICAO_Y3 == 20):
+        BOLINHA2 = [[POSICAO_Y3+3, 200]]
 
+    stdscr.addstr(BOLINHA2[0][0], BOLINHA2[0][1]-9, '0')
+    stdscr.addstr(BOLINHA2[0][0], BOLINHA2[0][1]-5, "OOOOOOO")
     
 
 def telacheia():
@@ -37,7 +71,8 @@ def main(stdscr):
     telacheia()
 
     curses.curs_set(0)
-    stdscr.clear()
+    stdscr.nodelay(1)
+    stdscr.timeout(100)
 
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3,sw-3]]
@@ -45,89 +80,66 @@ def main(stdscr):
     rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
     
     #-------------------------COLUNAS E POSICAO INICIAL DA BOLA E PERSONAGEM---------------------------------
-    curses.init_pair(1, curses.COLOR_YELLOW, curses.COLOR_YELLOW)
-    COR1 = curses.color_pair(1)
-    text = 'O'
+    colunas(stdscr)
+    #--------------------------------TEXTBOX------------------------------
 
-    # o x aumenta de 20 em 20 e o y é 49-valor da range
-    posicao_y = random.randrange(10,25,5)
-    posicao_x = 28
+    while True:
+        stdscr.addstr(1, 2, "Velocidade: ")
 
-    #Define a posição da bolinha
-    if (posicao_y == 10):
-        bolinha = [[posicao_y+23, 15]] #10,20,15
-    elif (posicao_y == 15):
-        bolinha = [[posicao_y+13, 15]]
-    elif (posicao_y == 20):
-        bolinha = [[posicao_y+3, 15]]       
-    
-    
-    stdscr.addstr(bolinha[0][0], bolinha[0][1], '0')
-    stdscr.addstr(bolinha[0][0], bolinha[0][1]-9, "OOOOOOO") #+"\n"+"()"+"\n"+"| |"
+        editwin = curses.newwin(1, 40, 3, 3)
+        rectangle(stdscr, 2, 2, 4, 44)
+        stdscr.refresh()
+
+        boxedit = Textbox(editwin)
+        boxedit.edit()
+
+        velocidade = int(boxedit.gather())
+        angulo = 10
+        gravidade = 9.8
+        tempo = math.ceil((velocidade*velocidade)/2*gravidade)
+
+        seno = math.sin(angulo)
+
+        if seno < 0:
+            seno = -math.sin(angulo)
+
+        altura_maxima = math.ceil((velocidade*velocidade)/2*gravidade)
+        alcance = math.ceil(((velocidade*velocidade*seno*2)/gravidade))
+        aaa = math.ceil(alcance/2)
+
+        px= BOLINHA[0][1] # 15 + 1 // 16, 17, 18, 19
+        py= BOLINHA[0][0] # 23 - 1 // 22,
+
+        for y in range(aaa):
+            alt = py-y
+            larg = px+y
+
+            if alt > 0:
+                stdscr.addstr(alt, larg, 'oo')
+            elif alt <= 0:
+                pass
+            #for y in range(alcance):
+            #    stdscr.addstr(py, px+y, 'F')
+        for y in range(aaa+1):
+            alt = py+y-aaa
+            larg = px+y+aaa
+            
+            if alt > 0:
+                if larg < box[1][1]:
+                    stdscr.addstr(alt, larg, 'FF')
+            elif alt <= 0:
+                if larg >= box[1][1]:
+                    pass
+
+        stdscr.getch()
 
 
-    #Define a posição, altura e largura das colunas
-    for i in range(8):
-        for y in range(posicao_y):
-            for x in range(posicao_x):
-                c = int(25)*int(i)
-                stdscr.addstr(y+46-posicao_y,x+4+c,text, COR1)
-                #stdscr.addstr(y+47-posicao_y,x+25+c, '')
-        posicao_y = random.randrange(10,25,5)
-
-    #-------------------------------LANÇAMENTO----------------------------
-    velocidade = 10
-    angulo = 10
-    gravidade = 9.8
-    tempo = 1
-
-    seno = math.sin(angulo)
-
-    if seno < 0:
-        seno = -math.sin(angulo)
-
-    altura_maxima = math.ceil((velocidade*velocidade)/2*gravidade)
-    alcance = math.ceil(((velocidade*velocidade)*seno*2)/gravidade)
-
-    px= bolinha[0][1] # 15 + 1 // 16, 17, 18, 19
-    py= bolinha[0][0] # 23 - 1 // 22,
-
-    for y in range(alcance):
-        stdscr.addstr(py-y, px+y, 'o')
-
-    
-
+    bala = [{"x":0, "y":0, "ativa": False, "traj": {"A":0, "B": 0}  }]
     #--------------------------------------------------------------------
     direction = 0
 
-
-
-    while 1:
-        key = stdscr.getch()
-        if key in [curses.KEY_RIGHT, curses.KEY_LEFT, curses.KEY_UP, curses.KEY_DOWN]:
-            direction = key
-
-        head = bolinha[0]
-
-        if direction == curses.KEY_RIGHT:
-            new_head = [head[0], head[1]+1]
-        elif direction == curses.KEY_LEFT:
-            new_head = [head[0], head[1]-1]
-        elif direction == curses.KEY_UP:
-            new_head = [head[0]-1, head[1]]
-        elif direction == curses.KEY_DOWN:
-            new_head = [head[0]+1, head[1]]
-
-        bolinha.insert(0, new_head)
-        stdscr.addstr(new_head[0], new_head[1], 'O')
-
-        stdscr.addstr(bolinha[-1][0], bolinha[-1][1], ' ')
-        bolinha.pop()
-        stdscr.refresh()
-
-
-
     stdscr.getch()
+
 
 
 curses.wrapper(main)
