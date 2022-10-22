@@ -3,13 +3,16 @@ import curses
 
 c = 12
 
+
+
+'''
 def cw():
     print(c)
 
 cw()
 
 
-'''
+
 int main( int argc, char ** argv ){
     char mesg[]="Digite uma mensagem: ";
     char str[80];
