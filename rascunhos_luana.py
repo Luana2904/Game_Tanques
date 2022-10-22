@@ -1,11 +1,49 @@
 import math
 import curses
 
-c = 12
-
-
-
+menu = ["Jogar", "Ranking", "Sair"]
 '''
+print(menu[1])
+
+
+    while 1:
+        key = stdscr.getch()
+        stdscr.clear()
+
+        if key == curses.KEY_UP and current_row_idx > 0:
+            current_row_idx -= 1
+        elif key == curses.KEY_DOWN and current_row_idx < len(menu)-1:
+            current_row_idx += 1
+        elif key == curses.KEY_ENTER or key in [10, 13]:
+            stdscr.clear()
+            if menu[current_row_idx] == "Jogar":
+                h, w = stdscr.getmaxyx()
+                x = w//2 
+                y = h//2
+                stdscr.addstr(y, x, 'Digite o nome do usuário1:')
+                stdscr.addstr(y+1, x, 'Digite o nome do usuário2')
+                stdscr.addstr(y+2, x, 'Digite o nível de dificuldade:')
+            elif menu[current_row_idx] == "Sair": 
+                h, w = stdscr.getmaxyx()
+                x = w//2 
+                y = h//2
+                stdscr.addstr(y, x,'Digite o nome do usuário1:')
+                stdscr.refresh()
+                stdscr.getch()
+            elif stdscr.addstr(0, 0, "You pressed {}".format(menu[current_row_idx])):
+                stdscr.refresh()
+                stdscr.getch()     
+            #elif current_row_idx == len(menu)-1:
+            #    break
+
+        print_menu(stdscr, current_row_idx)
+        #stdscr.refresh()
+
+curses.wrapper(main)
+
+
+
+
 def cw():
     print(c)
 

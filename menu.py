@@ -12,7 +12,7 @@ def print_menu(stdscr, selected_row_idx):
         if idx == selected_row_idx:
             stdscr.attron(curses.color_pair(1))
             stdscr.addstr(y, x, row) 
-            stdscr.addroff(curses.color_pair(1))
+            stdscr.attroff(curses.color_pair(1))
         else:  
             stdscr.addstr(y, x, row) 
 
@@ -36,11 +36,17 @@ def main(stdscr):
         elif key == curses.KEY_DOWN and current_row_idx < len(menu)-1:
             current_row_idx += 1
         elif key == curses.KEY_ENTER or key in [10, 13]:
-            if menu(current_row_idx) == "Jogar":
-                stdscr.addstr(0, 0,float(input("Digite o nome do usuário1:")))
-                stdscr.addstr(0, 0, float(input("Digite o nome do usuário2:")))
-                stdscr.addstr(0, 0,float(input("Digite o nível de dificuldade:")))
-            elif menu(current_row_idx) == "Sair":
+            stdscr.clear()
+            if menu[current_row_idx] == "Jogar":
+                h, w = stdscr.getmaxyx()
+                x = w//2 
+                y = h//2
+                stdscr.addstr(y, x, 'Digite o nome do usuário1:')
+                stdscr.addstr(y+1, x, 'Digite o nome do usuário2:')
+                stdscr.addstr(y+2, x, 'Digite o nível de dificuldade:')
+                stdscr.refresh()
+                stdscr.getch()
+            elif menu[current_row_idx] == "Sair":
                 break
             elif stdscr.addstr(0, 0, "You pressed {}".format(menu[current_row_idx])):
                 stdscr.refresh()
@@ -49,6 +55,6 @@ def main(stdscr):
                 break
 
         print_menu(stdscr, current_row_idx)
-        stdscr.refresh()
+        #stdscr.refresh()
 
 curses.wrapper(main)
