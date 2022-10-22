@@ -17,4 +17,3 @@ As configurações podem ser feitas quando usuário iniciar o jogo ou disponibil
 
 como instalar o curses: pip install windows-curses
 '''
-
