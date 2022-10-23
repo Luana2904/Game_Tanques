@@ -6,23 +6,12 @@ from random import shuffle, randrange
 import math
 import time
 
+def soma(x,y):
+    num = "sdds"
+    return num
 
-SUPERFICIE_PREDIOS=[]
+print(soma(10,20))
 
-def main(stdscr):
-    for i in range(1):
-        POSICAO_Y3 = random.randrange(10,25,5)
-        for y in range(POSICAO_Y3):
-            for x in range(28):
-                a = int(25)*int(i)+175
-                alt = y+46-POSICAO_Y3
-                larg = x+4+a
-                stdscr.addstr(alt, larg ,"0")
-        SUPERFICIE_PREDIOS.insert(y, [alt, larg])
-        
-
-
-curses.wrapper(main)
 
 '''
 LISTA=[]

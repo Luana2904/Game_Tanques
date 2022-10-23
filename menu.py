@@ -2,6 +2,7 @@ import curses
 from curses.textpad import Textbox, rectangle
 
 
+
 menu = ["Jogar", "Ranking", "Sair"]
 
 def print_menu(stdscr, selected_row_idx):
@@ -21,7 +22,7 @@ def print_menu(stdscr, selected_row_idx):
     stdscr.refresh()
 
 
-def main(stdscr):
+def main_menu(stdscr):
     curses.curs_set(0)
     curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_GREEN)
 
@@ -48,36 +49,38 @@ def main(stdscr):
                 stdscr.refresh()
                 USUARIO_1_ENTRADA = Textbox(USUARIO_1_WIN)
                 USUARIO_1_ENTRADA.edit()
-
-                USUARIO_1 = str(USUARIO_1_ENTRADA.gather())
+                usuario1 = str(USUARIO_1_ENTRADA.gather())
 
                 stdscr.addstr(y+1, x, 'Digite o nome do usuário2:')
                 USUARIO_2_WIN = curses.newwin(1, 20, y+1, x+27)
                 stdscr.refresh()
                 USUARIO_2_ENTRADA = Textbox(USUARIO_2_WIN)
                 USUARIO_2_ENTRADA.edit()
-
-                USUARIO_2 = str(USUARIO_2_ENTRADA.gather())
+                usuario2 = str(USUARIO_2_ENTRADA.gather())
 
                 stdscr.addstr(y+2, x, 'Digite o nível de dificuldade:')
+                dificuldade_win = curses.newwin(1, 20, y+2, x+30)
+                stdscr.refresh()
+                dificuldade_entrada = Textbox(dificuldade_win)
+                dificuldade_entrada.edit()
+                dificuldade = str(dificuldade_entrada.gather())
+
                 stdscr.refresh()
                 stdscr.getch()
-                stdscr.clear()
-                import estrutura
-
-                #return USUARIO_1, USUARIO_2
-
+                return usuario1, usuario2, dificuldade
+                break
+                
             elif menu[current_row_idx] == "Sair":
                 break
-            elif stdscr.addstr(0, 0, "You pressed {}".format(menu[current_row_idx])):
-                stdscr.refresh()
-                stdscr.getch()     
-            elif current_row_idx == len(menu)-1:
-                break
+                
+            #elif stdscr.addstr(0, 0, "You pressed {}".format(menu[current_row_idx])):
+            #    stdscr.refresh()
+            #    stdscr.getch()     
+            #elif current_row_idx == len(menu)-1:
+            #    break
+            
 
-        #return USUARIO_1, USUARIO_2
+
         print_menu(stdscr, current_row_idx)
+        
         stdscr.refresh()
-    #return USUARIO_1, USUARIO_2
-
-curses.wrapper(main)

@@ -5,7 +5,7 @@ from curses.textpad import Textbox, rectangle
 from random import shuffle, randrange
 import math
 import time
-
+import menu
 
 # o x aumenta de 20 em 20 e o y é 49-valor da range
 POSICAO_Y = random.randrange(10,25,5)
@@ -28,7 +28,8 @@ def telacheia():
 
 def main(stdscr):
     telacheia()
-    
+    usuario, usuario2, dificuldade = menu.main_menu(stdscr)
+    stdscr.clear()
     curses.curs_set(0)
     stdscr.nodelay(1)
     stdscr.timeout(100)
@@ -37,6 +38,7 @@ def main(stdscr):
     box = [[3,3], [sh-3,sw-3]]
     win = curses.newwin(box[0][0], box[0][1], box[1][0], box[1][1])
     rectangle(stdscr, box[0][0], box[0][1], box[1][0], box[1][1])
+
     
     #-------------------------COLUNAS E POSICAO INICIAL DA BOLA E PERSONAGEM---------------------------------
 
@@ -107,21 +109,25 @@ def main(stdscr):
     curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_WHITE)
     COR3 = curses.color_pair(3)
 
-    JOGADOR = ["player_1", "player_2"]
+
+
+    JOGADOR = [usuario, usuario2]
     CONTADOR = 0
     PERDEU = 0
+    
+    stdscr.addstr(4, 4, JOGADOR[0], COR3)
 
     while True:
-        stdscr.addstr(1, 2, "Velocidade: ", COR3)
-        stdscr.addstr(5, 2, "Angulo: ", COR3)
+        stdscr.addstr(5, 4, "Velocidade:", COR3)
+        stdscr.addstr(6, 4, "Angulo:", COR3)
 
-        editwin = curses.newwin(1, 20, 3, 3)
+        editwin = curses.newwin(1, 20, 5, 15)
         stdscr.refresh()
 
         boxedit = Textbox(editwin)
         boxedit.edit()
 
-        editwin2 = curses.newwin(1, 20, 8, 3)
+        editwin2 = curses.newwin(1, 20, 6, 11)
         stdscr.refresh()
 
         boxedit2 = Textbox(editwin2)
@@ -163,7 +169,7 @@ def main(stdscr):
 
                 #for y in range(alcance):
                 #    stdscr.addstr(py, px+y, 'F')
-            for y in range(metade_alcance+10):
+            for y in range(metade_alcance+30):
                 alt = py+y-metade_alcance
                 larg = px+y+metade_alcance
             
@@ -194,6 +200,7 @@ def main(stdscr):
                 if PERDEU_P == 1:
                     break
 
+            stdscr.addstr(4, 4, JOGADOR[1], COR3)
             CONTADOR = 1
 
         elif JOGADOR[CONTADOR] == JOGADOR[1]:
@@ -212,7 +219,7 @@ def main(stdscr):
 
                 #for y in range(alcance):
                 #    stdscr.addstr(py, px+y, 'F')
-            for y in range(metade_alcance+10):
+            for y in range(metade_alcance+30):
                 alt = py2+y-metade_alcance
                 larg = px2-y-metade_alcance
             
@@ -243,6 +250,7 @@ def main(stdscr):
                 if PERDEU == 1:
                     break
 
+            stdscr.addstr(4, 4, JOGADOR[0], COR3)
             CONTADOR = 0
 
 
