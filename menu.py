@@ -1,4 +1,6 @@
 import curses
+from curses.textpad import Textbox, rectangle
+
 
 menu = ["Jogar", "Ranking", "Sair"]
 
@@ -39,13 +41,32 @@ def main(stdscr):
             stdscr.clear()
             if menu[current_row_idx] == "Jogar":
                 h, w = stdscr.getmaxyx()
-                x = w//2 
-                y = h//2
+                x = w//2 - 3
+                y = h//2 - 3
                 stdscr.addstr(y, x, 'Digite o nome do usuário1:')
+                USUARIO_1_WIN = curses.newwin(1, 20, y, x+27)
+                stdscr.refresh()
+                USUARIO_1_ENTRADA = Textbox(USUARIO_1_WIN)
+                USUARIO_1_ENTRADA.edit()
+
+                USUARIO_1 = str(USUARIO_1_ENTRADA.gather())
+
                 stdscr.addstr(y+1, x, 'Digite o nome do usuário2:')
+                USUARIO_2_WIN = curses.newwin(1, 20, y+1, x+27)
+                stdscr.refresh()
+                USUARIO_2_ENTRADA = Textbox(USUARIO_2_WIN)
+                USUARIO_2_ENTRADA.edit()
+
+                USUARIO_2 = str(USUARIO_2_ENTRADA.gather())
+
                 stdscr.addstr(y+2, x, 'Digite o nível de dificuldade:')
                 stdscr.refresh()
                 stdscr.getch()
+                stdscr.clear()
+                import estrutura
+
+                #return USUARIO_1, USUARIO_2
+
             elif menu[current_row_idx] == "Sair":
                 break
             elif stdscr.addstr(0, 0, "You pressed {}".format(menu[current_row_idx])):
@@ -54,7 +75,9 @@ def main(stdscr):
             elif current_row_idx == len(menu)-1:
                 break
 
+        #return USUARIO_1, USUARIO_2
         print_menu(stdscr, current_row_idx)
-        #stdscr.refresh()
+        stdscr.refresh()
+    #return USUARIO_1, USUARIO_2
 
 curses.wrapper(main)

@@ -6,6 +6,7 @@ from random import shuffle, randrange
 import math
 import time
 
+
 # o x aumenta de 20 em 20 e o y é 49-valor da range
 POSICAO_Y = random.randrange(10,25,5)
 POSICAO_X = 28
@@ -43,7 +44,6 @@ def main(stdscr):
     COR1 = curses.color_pair(1)
     text = 'O'
 
-    stdscr.addstr(BOLINHA[0][0], BOLINHA[0][1], '0')
     stdscr.addstr(BOLINHA[0][0], BOLINHA[0][1]-9, "OOOOOOO") #+"\n"+"()"+"\n"+"| |"
 
     SUPERFICIE_PREDIOS = []
@@ -98,19 +98,29 @@ def main(stdscr):
 
 
     #--------------------------------TEXTBOX------------------------------
+    curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_WHITE)
+    COR = curses.color_pair(2)
+    curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_WHITE)
+    COR3 = curses.color_pair(3)
 
     while True:
-        stdscr.addstr(1, 2, "Velocidade: ")
+        stdscr.addstr(1, 2, "Velocidade: ", COR3)
+        stdscr.addstr(5, 2, "Angulo: ", COR3)
 
-        editwin = curses.newwin(1, 40, 3, 3)
-        rectangle(stdscr, 2, 2, 4, 44)
+        editwin = curses.newwin(1, 20, 3, 3)
         stdscr.refresh()
 
         boxedit = Textbox(editwin)
         boxedit.edit()
 
+        editwin2 = curses.newwin(1, 20, 8, 3)
+        stdscr.refresh()
+
+        boxedit2 = Textbox(editwin2)
+        boxedit2.edit()
+
         velocidade = int(boxedit.gather())
-        angulo = 10
+        angulo = int(boxedit2.gather())
         gravidade = 9.8
         tempo = math.ceil((velocidade*velocidade)/2*gravidade)
 
@@ -126,10 +136,6 @@ def main(stdscr):
         px= BOLINHA[0][1] # 15 + 1 // 16, 17, 18, 19
         py= BOLINHA[0][0] # 23 - 1 // 22,
 
-
-
-        curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_WHITE)
-        COR = curses.color_pair(2)
         for y in range(aaa):
             alt = py-y
             larg = px+y
@@ -157,6 +163,10 @@ def main(stdscr):
             elif alt <= 0:
                 if larg >= box[1][1]:
                     pass
+
+
+        #----------------------------------------------------------------
+        
 
         stdscr.getch()
 
