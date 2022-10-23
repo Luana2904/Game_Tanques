@@ -6,11 +6,11 @@ from random import shuffle, randrange
 import math
 import time
 
-def soma(x,y):
-    num = "sdds"
-    return num
+p = int(4)
 
-print(soma(10,20))
+for i in range(3):
+    p = int(i)+int(p)
+    print(p)
 
 
 '''

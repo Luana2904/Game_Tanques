@@ -65,9 +65,23 @@ def main_menu(stdscr):
                 dificuldade_entrada.edit()
                 dificuldade = str(dificuldade_entrada.gather())
 
+                stdscr.addstr(y+3, x, 'Digite a quantidade de rodadas:')
+                rodadas_win = curses.newwin(1, 20, y+3, x+31)
+                stdscr.refresh()
+                rodadas_entrada = Textbox(rodadas_win)
+                rodadas_entrada.edit()
+                rodadas = int(rodadas_entrada.gather())
+
+                stdscr.addstr(y+4, x, 'Digite a gravidade:')
+                gravidade_win = curses.newwin(1, 20, y+4, x+19)
+                stdscr.refresh()
+                gravidade_entrada = Textbox(gravidade_win)
+                gravidade_entrada.edit()
+                gravidade = float(gravidade_entrada.gather())
+
                 stdscr.refresh()
                 stdscr.getch()
-                return usuario1, usuario2, dificuldade
+                return usuario1, usuario2, dificuldade, rodadas, gravidade
                 break
                 
             elif menu[current_row_idx] == "Sair":
