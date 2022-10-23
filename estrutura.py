@@ -44,7 +44,13 @@ def main(stdscr):
     COR1 = curses.color_pair(1)
     text = 'O'
 
-    stdscr.addstr(BOLINHA[0][0], BOLINHA[0][1]-9, "OOOOOOO") #+"\n"+"()"+"\n"+"| |"
+    PERSONAGEM_1_POSICAO = []
+    for a in range(5):
+        y = BOLINHA[0][0]
+        x = BOLINHA[0][1]-9+a
+        stdscr.addstr(y, x, "O") #+"\n"+"()"+"\n"+"| |"
+        PERSONAGEM_1_POSICAO.insert(a, [y,x])
+
 
     SUPERFICIE_PREDIOS = []
 
@@ -56,7 +62,9 @@ def main(stdscr):
                 alt = y+46-POSICAO_Y
                 larg = x+4+c
                 stdscr.addstr(alt, larg ,text ,COR1)
-                SUPERFICIE_PREDIOS.insert(0, [alt, larg]) 
+                mapear_y= 0
+                mapear_x= 0
+                SUPERFICIE_PREDIOS.insert(y, [alt, larg]) 
 
                 #stdscr.addstr(y+47-posicao_y,x+25+c, '')
     
@@ -64,26 +72,24 @@ def main(stdscr):
         POSICAO_Y2 = random.randrange(10,25,5) 
         for y in range(POSICAO_Y2):
             for x in range(POSICAO_X):
-                c = int(i)+1
                 d = int(25)*int(i)+25
                 alt = y+46-POSICAO_Y2
                 larg = x+4+d
                 stdscr.addstr(alt, larg, text, COR1)
-                SUPERFICIE_PREDIOS.insert(c, larg)
+                SUPERFICIE_PREDIOS.insert(y+POSICAO_Y, [alt, larg])
 
                 #stdscr.addstr(y+47-posicao_y,x+25+c, '')
 
     for i in range(1):
         POSICAO_Y3 = random.randrange(10,25,5)
         for y in range(POSICAO_Y3):
-            for x in range(POSICAO_X):
+            for x in range(28):
                 a = int(25)*int(i)+175
                 alt = y+46-POSICAO_Y3
                 larg = x+4+a
-                stdscr.addstr(alt, larg ,text, COR1)
-                SUPERFICIE_PREDIOS.insert(7, larg)
+                stdscr.addstr(alt, larg , text, COR1)
+                SUPERFICIE_PREDIOS.insert(y+POSICAO_Y2, [alt, larg])
 
-                #stdscr.addstr(y+47-posicao_y,x+25+c, '')
 
     if (POSICAO_Y3 == 10):
         BOLINHA2 = [[POSICAO_Y3+23, 200]] #10,20,15
@@ -92,16 +98,18 @@ def main(stdscr):
     elif (POSICAO_Y3 == 20):
         BOLINHA2 = [[POSICAO_Y3+3, 200]]
 
-    stdscr.addstr(BOLINHA2[0][0], BOLINHA2[0][1]-9, '0')
     stdscr.addstr(BOLINHA2[0][0], BOLINHA2[0][1]-5, "OOOOOOO")
-
-
+    PERSONAGEM_2_POSICAO = [BOLINHA2[0][0], BOLINHA2[0][1]-5]
 
     #--------------------------------TEXTBOX------------------------------
     curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_WHITE)
     COR = curses.color_pair(2)
     curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_WHITE)
     COR3 = curses.color_pair(3)
+
+    JOGADOR = ["player_1", "player_2"]
+    CONTADOR = 0
+    PERDEU = 0
 
     while True:
         stdscr.addstr(1, 2, "Velocidade: ", COR3)
@@ -131,38 +139,112 @@ def main(stdscr):
 
         altura_maxima = math.ceil((velocidade*velocidade)/2*gravidade)
         alcance = math.ceil(((velocidade*velocidade*seno*2)/gravidade))
-        aaa = math.ceil(alcance/2)
+        metade_alcance = math.ceil(alcance/2)
 
         px= BOLINHA[0][1] # 15 + 1 // 16, 17, 18, 19
         py= BOLINHA[0][0] # 23 - 1 // 22,
 
-        for y in range(aaa):
-            alt = py-y
-            larg = px+y
+        px2= BOLINHA2[0][1]-9
+        py2= BOLINHA2[0][0]
 
-            if alt > 0:
-                stdscr.addstr(alt, larg, 'oo', COR)
-                stdscr.refresh()
-                time.sleep(0.2)
-                stdscr.addstr(alt, larg, '  ')
-            elif alt <= 0:
-                pass
+        if JOGADOR[CONTADOR] == JOGADOR[0]:
+            PERDEU_P = 0
+            for y in range(metade_alcance):
+                alt = py-y
+                larg = px+y
 
-            #for y in range(alcance):
-            #    stdscr.addstr(py, px+y, 'F')
-        for y in range(aaa+1):
-            alt = py+y-aaa
-            larg = px+y+aaa
-            
-            if alt > 0:
-                if larg < box[1][1]:
-                    stdscr.addstr(alt-1, larg-1, '  ')
-                    stdscr.addstr(alt, larg, 'FF',COR)
+                if alt > 0:
+                    stdscr.addstr(alt, larg, 'oo', COR)
                     stdscr.refresh()
                     time.sleep(0.2)
-            elif alt <= 0:
-                if larg >= box[1][1]:
+                    stdscr.addstr(alt, larg, '  ')
+                elif alt <= 0:
                     pass
+
+                #for y in range(alcance):
+                #    stdscr.addstr(py, px+y, 'F')
+            for y in range(metade_alcance+10):
+                alt = py+y-metade_alcance
+                larg = px+y+metade_alcance
+            
+                if alt > 0:
+                    if larg < box[1][1]:
+                        stdscr.addstr(alt, larg, 'FF',COR)
+                        stdscr.refresh()
+                        time.sleep(0.2)
+                        stdscr.addstr(alt, larg, '  ')
+                elif alt <= 0:
+                    if larg >= box[1][1]:
+                        pass
+
+                for c in range(len(SUPERFICIE_PREDIOS)):
+                    ff = SUPERFICIE_PREDIOS[c]
+                    if [alt, larg] == ff:
+                        PERDEU_P = 1
+                       
+
+                for c in range(len(PERSONAGEM_1_POSICAO)):
+                    a = PERSONAGEM_1_POSICAO[c]
+                    if [alt, larg] == a:
+                        stdscr.clear()
+                        stdscr.addstr(sh-3, sw-3, 'GAME OVER',COR3)   
+                        stdscr.refresh()
+                        PERDEU_P = 1
+
+                if PERDEU_P == 1:
+                    break
+
+            CONTADOR = 1
+
+        elif JOGADOR[CONTADOR] == JOGADOR[1]:
+            PERDEU = 0
+            for y in range(metade_alcance):
+                alt = py2-y
+                larg = px2-y
+
+                if alt > 0:
+                    stdscr.addstr(alt, larg, 'oo', COR)
+                    stdscr.refresh()
+                    time.sleep(0.2)
+                    stdscr.addstr(alt, larg, '  ')
+                elif alt <= 0:
+                    pass
+
+                #for y in range(alcance):
+                #    stdscr.addstr(py, px+y, 'F')
+            for y in range(metade_alcance+10):
+                alt = py2+y-metade_alcance
+                larg = px2-y-metade_alcance
+            
+                if alt > 0:
+                    if larg > box[0][1]:
+                        stdscr.addstr(alt, larg, 'FF',COR)
+                        stdscr.refresh()
+                        time.sleep(0.2)
+                        stdscr.addstr(alt, larg, '  ')
+                elif alt <= 0:
+                    if larg <= box[0][1]:
+                        pass         
+
+                for c in range(len(SUPERFICIE_PREDIOS)):
+                    ff = SUPERFICIE_PREDIOS[c]
+                    if [alt, larg] == ff:
+                        PERDEU = 1
+                       
+
+                for c in range(len(PERSONAGEM_1_POSICAO)):
+                    a = PERSONAGEM_1_POSICAO[c]
+                    if [alt, larg] == a:
+                        stdscr.clear()
+                        stdscr.addstr(sh-3, sw-3, 'GAME OVER',COR3)   
+                        stdscr.refresh()
+                        PERDEU = 1
+
+                if PERDEU == 1:
+                    break
+
+            CONTADOR = 0
+
 
 
         #----------------------------------------------------------------
@@ -173,7 +255,5 @@ def main(stdscr):
 
     #--------------------------------------------------------------------
     stdscr.getch()
-
-
 
 curses.wrapper(main)

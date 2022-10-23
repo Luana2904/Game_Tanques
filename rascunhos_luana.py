@@ -1,10 +1,49 @@
-import math
 import curses
-from menu import USUARIO_1
+import ctypes
+import random
+from curses.textpad import Textbox, rectangle
+from random import shuffle, randrange
+import math
+import time
 
-stdscr.addstr(20,20,USUARIO_1)
+
+SUPERFICIE_PREDIOS=[]
+
+def main(stdscr):
+    for i in range(1):
+        POSICAO_Y3 = random.randrange(10,25,5)
+        for y in range(POSICAO_Y3):
+            for x in range(28):
+                a = int(25)*int(i)+175
+                alt = y+46-POSICAO_Y3
+                larg = x+4+a
+                stdscr.addstr(alt, larg ,"0")
+        SUPERFICIE_PREDIOS.insert(y, [alt, larg])
+        
+
+
+curses.wrapper(main)
 
 '''
+LISTA=[]
+
+for i in range(6):
+    larg = 20+i
+    LISTA.insert(i, larg)
+
+print(LISTA[0])
+
+lu = 1
+at = [12,23,45,42,12,442]
+a = len(at)
+
+for y in range(len(at)):
+    atl = at[y]
+
+    if lu == atl:
+        print("certo")
+    elif lu != atl:
+        pass
 
 def cw():
     print(c)
