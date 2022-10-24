@@ -6,11 +6,56 @@ from random import shuffle, randrange
 import math
 import time
 
+    discos = [ { "img":"@1", "x":0, "y":0, "ativo": False, "traj": {"A":0, "B": 0, "C": 0} },
+           { "img":"@2", "x":0, "y":0, "ativo": False, "traj": {"A":0, "B": 0, "C": 0} },
+           { "img":"@3", "x":0, "y":0, "ativo": False, "traj": {"A":0, "B": 0, "C": 0} },
+           { "img":"@4", "x":0, "y":0, "ativo": False, "traj": {"A":0, "B": 0, "C": 0} } ]
 p = int(4)
 
 for i in range(3):
     p = int(i)+int(p)
     print(p)
+
+            if (randrange(15) % len(discos) == 0 and intervalo < 0):
+            intervalo = len(discos) + randrange(10)
+            j = 0
+            for disco in discos:
+                if (not disco["ativo"]):
+                    disco["ativo"] = True
+                    disco["x"] = 10
+                    disco["y"] = 15
+                    disco["traj"]["C"] = disco["y"]
+                    disco["traj"]["A"] = (max(-15, 4 - disco["traj"]["C"])) / ((200/2) * (200/2 - 200)) # 2 = y min
+                    disco["traj"]["B"] = - disco["traj"]["A"] * 200
+
+                    traj = disco["traj"]
+                    break
+                j += 1
+
+        # apaga, move e desenha discos
+        j = 0
+        for disco in discos:
+            # Apaga o disco
+            stdscr.addstr(disco["x"],disco["y"], ' ')
+            #console.gotoxy(disco["x"], disco["y"])
+            #print("  ", end='')
+            
+            # Mostra os discos ativos:
+            if disco["ativo"]:
+                traj = disco["traj"]
+
+                # Muda as posições do disco
+                disco["x"] += 1    # Disco se move para direita
+                disco["y"] = int(traj["A"]*disco["x"] + traj["C"])
+
+                if disco["x"] >= 200:
+                    disco["ativo"] = False
+                else:
+                    stdscr.addstr(disco["x"],disco["y"], 'OO')
+                    #console.gotoxy(disco["x"], disco["y"])
+                    #print(disco["img"], end='') # ou print("@" + chr(ord('1')+j), end='')
+
+            j += 1
 
 
 '''
