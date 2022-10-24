@@ -19,7 +19,7 @@ with open("informacao.json", 'r'):
         if listobj[i]['pontuacao'] > maior:
             maior = listobj[i]['nome']
             index = i
-        else:
+
             
 
         

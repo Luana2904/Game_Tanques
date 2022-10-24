@@ -1,5 +1,6 @@
 import curses
 from curses.textpad import Textbox, rectangle
+import ranking
 
 
 
@@ -84,6 +85,8 @@ def main_menu(stdscr):
                 return usuario1, usuario2, dificuldade, rodadas, gravidade
                 break
                 
+            elif menu[current_row_idx] == "Ranking":
+                break
             elif menu[current_row_idx] == "Sair":
                 break
                 

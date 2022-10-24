@@ -311,10 +311,14 @@ def main(stdscr):
                 if PERDEU == 1:
                     break
 
+            
+
             stdscr.addstr(4, 4, JOGADOR[0], COR3)
             CONTADOR = 0
-
+        
         stdscr.getch()
+
+        
     stdscr.getch()
 
 curses.wrapper(main)
