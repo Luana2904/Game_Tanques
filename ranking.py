@@ -15,7 +15,11 @@ with open("informacao.json", 'r+') as json_file:
     json.dump(listobj, json_file, indent= 4) #linha onde o json se altera
 
 with open("informacao.json", 'r'):
-    for i in range(0, len(listobj)):
-        if listobj[0]['pontuacao'] > maior:
-            maior = listobj [0]['nome']
+    for i in listobj:
+        if listobj[i]['pontuacao'] > maior:
+            maior = listobj[i]['nome']
+            index = i
+        else:
             
+
+        
