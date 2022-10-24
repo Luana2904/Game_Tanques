@@ -13,13 +13,14 @@ POSICAO_X = [28, 20, 15]
 
 #Define a posição da bolinha
 if (POSICAO_Y == 10):
-    BOLINHA = [[POSICAO_Y+23, 15]] #10,20,15
+    BOLINHA = [[POSICAO_Y+23, 15]] 
 elif (POSICAO_Y == 15):
     BOLINHA = [[POSICAO_Y+13, 15]]
 elif (POSICAO_Y == 20):
     BOLINHA = [[POSICAO_Y+3, 15]]
 
 def main_cenario_facil(stdscr):
+    stdscr.clear()
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3,sw-3]]
     win = curses.newwin(box[0][0], box[0][1], box[1][0], box[1][1])
@@ -63,7 +64,6 @@ def main_cenario_facil(stdscr):
                 stdscr.addstr(alt, larg, text, COR1)
                 SUPERFICIE_PREDIOS.insert(y+POSICAO_Y, [alt, larg])
 
-                #stdscr.addstr(y+47-posicao_y,x+25+c, '')
 
     for i in range(1):
         POSICAO_Y3 = random.randrange(10,25,5)
@@ -89,11 +89,17 @@ def main_cenario_facil(stdscr):
         x = BOLINHA2[0][1]-5+a
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_2_POSICAO.insert(a, [y,x])
+    for a in range(5):
+        y = BOLINHA2[0][0]+1
+        x = BOLINHA2[0][1]-5+a
+        stdscr.addstr(y, x, "O") 
+        PERSONAGEM_2_POSICAO.insert(a, [y,x])
 
     return PERSONAGEM_1_POSICAO,SUPERFICIE_PREDIOS,PERSONAGEM_2_POSICAO,BOLINHA,BOLINHA2, box
 
 
 def main_cenario_medio(stdscr):
+    stdscr.clear()
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3,sw-3]]
     win = curses.newwin(box[0][0], box[0][1], box[1][0], box[1][1])
@@ -123,7 +129,6 @@ def main_cenario_medio(stdscr):
                 mapear_x= 0
                 SUPERFICIE_PREDIOS.insert(y, [alt, larg]) 
 
-                #stdscr.addstr(y+47-posicao_y,x+25+c, '')
     
     for i in range(9):
         POSICAO_Y2 = random.randrange(10,25,2) 
@@ -134,8 +139,6 @@ def main_cenario_medio(stdscr):
                 larg = x+4+d
                 stdscr.addstr(alt, larg, text, COR1)
                 SUPERFICIE_PREDIOS.insert(y+POSICAO_Y, [alt, larg])
-
-                #stdscr.addstr(y+47-posicao_y,x+25+c, '')
 
     for i in range(1):
         POSICAO_Y3 = random.randrange(10,25,5)
@@ -148,7 +151,7 @@ def main_cenario_medio(stdscr):
 
 
     if (POSICAO_Y3 == 10):
-        BOLINHA2 = [[POSICAO_Y3+23, 200]] #10,20,15
+        BOLINHA2 = [[POSICAO_Y3+23, 200]] 
     elif (POSICAO_Y3 == 15):
         BOLINHA2 = [[POSICAO_Y3+13, 200]]
     elif (POSICAO_Y3 == 20):
@@ -160,12 +163,18 @@ def main_cenario_medio(stdscr):
         x = BOLINHA2[0][1]-5+a
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_2_POSICAO.insert(a, [y,x])
+    for a in range(5):
+        y = BOLINHA2[0][0]+1
+        x = BOLINHA2[0][1]-5+a
+        stdscr.addstr(y, x, "O") 
+        PERSONAGEM_2_POSICAO.insert(a, [y,x])
 
     return PERSONAGEM_1_POSICAO,SUPERFICIE_PREDIOS,PERSONAGEM_2_POSICAO,BOLINHA,BOLINHA2, box
 
 
 
 def main_cenario_dificil(stdscr):
+    stdscr.clear()
     sh, sw = stdscr.getmaxyx()
     box = [[3,3], [sh-3,sw-3]]
     win = curses.newwin(box[0][0], box[0][1], box[1][0], box[1][1])
@@ -230,6 +239,11 @@ def main_cenario_dificil(stdscr):
     PERSONAGEM_2_POSICAO = []
     for a in range(5):
         y = BOLINHA2[0][0]
+        x = BOLINHA2[0][1]-5+a
+        stdscr.addstr(y, x, "O") 
+        PERSONAGEM_2_POSICAO.insert(a, [y,x])
+    for a in range(5):
+        y = BOLINHA2[0][0]+1
         x = BOLINHA2[0][1]-5+a
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_2_POSICAO.insert(a, [y,x])
