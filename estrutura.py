@@ -82,12 +82,17 @@ def main(stdscr):
         #tempo = math.ceil((velocidade*velocidade)/2*g)
 
         seno = math.sin(angulo)
-
+        
         if seno < 0:
             seno = -math.sin(angulo)
+        
+        cosseno = math.cos(angulo)
+
+        if cosseno < 0:
+            cosseno = -math.cos(angulo)
 
         #altura_maxima = math.ceil((velocidade*velocidade)/2*g)
-        alcance = math.ceil(((velocidade*velocidade*seno*2)/g))
+        alcance = math.ceil(((velocidade*velocidade*seno*2*cosseno)/g))
         metade_alcance = math.ceil(alcance/2)
 
         #-------------------------------------------------------------
