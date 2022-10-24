@@ -6,7 +6,6 @@ from random import shuffle, randrange
 import math
 import time
 import menu
-import game_over
 import cenarios
 
 def telacheia():
@@ -46,19 +45,18 @@ def main(stdscr):
         PERSONAGEM_1_POSICAO, SUPERFICIE_PREDIOS, PERSONAGEM_2_POSICAO, BOLINHA, BOLINHA2, box = cenarios.main_cenario_medio(stdscr)
     elif dificuldade == niveil_dificuldade[2]:
         PERSONAGEM_1_POSICAO, SUPERFICIE_PREDIOS, PERSONAGEM_2_POSICAO, BOLINHA, BOLINHA2, box = cenarios.main_cenario_medio(stdscr)
-    #--------------------------------TEXTBOX------------------------------
 
+    #----------------------------------------------------------------------------------------------------------
 
-    JOGADOR = [usuario, usuario2]
+    JOGADOR = [usuario, usuario2]# fulano 1, fulaninho
     CONTADOR = 0
     PERDEU = 0
-    RODADA = int(0)
+    RODADA = int(1)
     PONTOS = 5
     PONTUACAO_U_1 = int(0)
     PONTUACAO_U_2 = int(0)
-    intervalo = 5 
     
-    stdscr.addstr(4, 4, JOGADOR[0], COR3)
+    stdscr.addstr(4, 4, JOGADOR[0], COR3) 
 
     while True:
         stdscr.addstr(5, 4, "Velocidade:", COR2)
@@ -66,36 +64,36 @@ def main(stdscr):
         stdscr.addstr(7, 4, usuario + ": " + str(PONTUACAO_U_1), COR2)
         stdscr.addstr(8, 4, usuario2 + ": " + str(PONTUACAO_U_2), COR2)
 
-        editwin = curses.newwin(1, 20, 5, 15)
+        velocidade_win = curses.newwin(1, 20, 5, 15)
         stdscr.refresh()
 
-        boxedit = Textbox(editwin)
-        boxedit.edit()
+        velocidade_entrada = Textbox(velocidade_win)
+        velocidade_entrada.edit()
 
-        editwin2 = curses.newwin(1, 20, 6, 11)
+        angulo_win = curses.newwin(1, 20, 6, 11)
         stdscr.refresh()
 
-        boxedit2 = Textbox(editwin2)
-        boxedit2.edit()
+        angulo_entrada = Textbox(angulo_win)
+        angulo_entrada.edit()
 
-        velocidade = int(boxedit.gather())
-        angulo = int(boxedit2.gather())
+        velocidade = int(velocidade_entrada.gather())
+        angulo = int(angulo_entrada.gather())
         g = gravidade
-        tempo = math.ceil((velocidade*velocidade)/2*g)
+        #tempo = math.ceil((velocidade*velocidade)/2*g)
 
         seno = math.sin(angulo)
 
         if seno < 0:
             seno = -math.sin(angulo)
 
-        altura_maxima = math.ceil((velocidade*velocidade)/2*g)
+        #altura_maxima = math.ceil((velocidade*velocidade)/2*g)
         alcance = math.ceil(((velocidade*velocidade*seno*2)/g))
         metade_alcance = math.ceil(alcance/2)
 
         #-------------------------------------------------------------
 
-        px= BOLINHA[0][1] # 15 + 1 // 16, 17, 18, 19
-        py= BOLINHA[0][0] # 23 - 1 // 22,
+        px= BOLINHA[0][1]
+        py= BOLINHA[0][0] 
 
         px2= BOLINHA2[0][1]-9
         py2= BOLINHA2[0][0]
@@ -108,12 +106,10 @@ def main(stdscr):
                 alt = py-y
                 larg = px+y
 
-                #disco_x= POSICOES_DISCO[0][0]+y*2
-                #disco_y= POSICOES_DISCO[0][1]
-
                 if dificuldade == niveil_dificuldade[0]:
                     if alt > 0:
-                        stdscr.addstr(alt, larg, 'oo', COR)
+                        stdscr.addstr(alt, larg, 'o', COR)
+                        stdscr.addstr(alt, larg+1, 'o', COR)
                         stdscr.refresh()
                         time.sleep(0.1)
                         stdscr.addstr(alt, larg, '  ')
@@ -127,31 +123,17 @@ def main(stdscr):
                         stdscr.addstr(alt, larg, ' ')
                     elif alt <= 0:
                         pass
-                    #if alt > 0:
-                    #    stdscr.addstr(disco_y, disco_x, '0o-')
-                    #    stdscr.addstr(alt, larg, 'oo', COR)
-                    #    stdscr.refresh()
-                    #    time.sleep(0.1)
-                    #    stdscr.addstr(disco_y, disco_x, '   ')
-                    #    stdscr.addstr(alt, larg, ' ')
-                    #elif alt <= 0:
-                    #    pass
-
-                    #if [disco_y, disco_x] == [alt, larg]:
-                    #    PERDEU_P = 1
 
             # DESCIDA JOGADOR 1 ----------------------------------------
             for y in range(metade_alcance+40):
                 alt = py+y-metade_alcance
                 larg = px+y+metade_alcance
-
-                #disco_x= POSICOES_DISCO[0][0]+y*2+metade_alcance+1
-                #disco_y= POSICOES_DISCO[0][1]
                  
                 if dificuldade == niveil_dificuldade[0]:
                     if alt > 0:
                         if larg < box[1][1]:
-                            stdscr.addstr(alt, larg, 'oo',COR)
+                            stdscr.addstr(alt, larg, 'o',COR)
+                            stdscr.addstr(alt, larg+1, 'o', COR)
                             stdscr.refresh()
                             time.sleep(0.1)
                             stdscr.addstr(alt, larg, '  ')
@@ -169,45 +151,52 @@ def main(stdscr):
                         if larg >= box[1][1]:
                             pass  
 
-                    #if alt > 0:
-                    #    if larg < box[1][1]:
-                    #        stdscr.addstr(disco_y, disco_x, '0o-')
-                    #        stdscr.addstr(alt, larg, 'o', COR)
-                    #        stdscr.refresh()
-                    #        time.sleep(0.1)
-                    #        stdscr.addstr(disco_y, disco_x, '   ')
-                    #        stdscr.addstr(alt, larg, ' ')
-                    #elif alt <= 0:
-                    #    if larg >= box[1][1]:
-                    #        pass
-
-                #if [disco_y, disco_x] == [alt, larg]:
-                #    PERDEU_P = 1
-
                 # COLISAO DA BOLINHA JOGADOR 1 COM A SUPERFICIE --------
                 for c in range(len(SUPERFICIE_PREDIOS)):
-                    ff = SUPERFICIE_PREDIOS[c]
-                    if [alt, larg] == ff:
-                        PERDEU_P = 1
-                       
+                    superficie = SUPERFICIE_PREDIOS[c]
+                    if dificuldade == niveil_dificuldade[0]:
+                        if ([alt, larg] == superficie) or ([alt, larg+1] == superficie):
+                            PERDEU_P = 1
+                    elif (dificuldade == niveil_dificuldade[2]) or (dificuldade == niveil_dificuldade[1]):
+                        if ([alt, larg] == superficie):
+                            PERDEU_P = 1
+
                 # COLISAO DA BOLINHA JOGADOR 1 COM O PERSONAGEM 2 --------
                 for c in range(len(PERSONAGEM_2_POSICAO)):
-                    a = PERSONAGEM_2_POSICAO[c]
-                    if [alt, larg] == a:
+                    posicao_jogador_2 = PERSONAGEM_2_POSICAO[c]
+                    if [alt, larg] == posicao_jogador_2:
                         PONTUACAO_U_1 = int(PONTUACAO_U_1)+int(PONTOS)
                         if RODADA < rodadas:
                             if dificuldade == niveil_dificuldade[0]:
                                 PERSONAGEM_1_POSICAO, SUPERFICIE_PREDIOS, PERSONAGEM_2_POSICAO, BOLINHA, BOLINHA2, box =cenarios.main_cenario_facil(stdscr) 
+                                PERDEU_P = 1
                             elif dificuldade == niveil_dificuldade[1]:
                                 PERSONAGEM_1_POSICAO, SUPERFICIE_PREDIOS, PERSONAGEM_2_POSICAO, BOLINHA, BOLINHA2, box =cenarios.main_cenario_medio(stdscr)
+                                PERDEU_P = 1
                             elif dificuldade == niveil_dificuldade[2]:
                                 PERSONAGEM_1_POSICAO, SUPERFICIE_PREDIOS, PERSONAGEM_2_POSICAO, BOLINHA, BOLINHA2, box =cenarios.main_cenario_medio(stdscr)
+                                PERDEU_P = 1
                             RODADA = int(RODADA)+int(1)
                             break
                         elif RODADA == rodadas:
-                            game_over.main_game_over(stdscr)
-                        stdscr.refresh()
-                        PERDEU_P = 1
+                            # QUANDO AS RODADAS ACABAREM
+                            stdscr.clear()
+                            sh, sw = stdscr.getmaxyx()
+                            x_ = sw//2 
+                            y_ = sh//2 
+                            stdscr.addstr(y_, x_, str(usuario))
+                            stdscr.addstr(y_+1, x_, "PONTUAÇÃO: ")
+                            stdscr.addstr(y_+1, x_+11, str(PONTUACAO_U_1))
+                            stdscr.addstr(y_+2, x_, str(usuario2))
+                            stdscr.addstr(y_+3, x_, "PONTUAÇÃO: ")
+                            stdscr.addstr(y_+3, x_+11, str(PONTUACAO_U_2))
+
+                            key = stdscr.getch()
+                            if key == curses.KEY_ENTER or key in [10, 13]:
+                                stdscr.clear()
+                                usuario, usuario2, dificuldade, rodadas, gravidade = menu.main_menu(stdscr) 
+                                break
+                        
 
                 if PERDEU_P == 1:
                     break
@@ -221,13 +210,11 @@ def main(stdscr):
             for y in range(metade_alcance):
                 alt = py2-y
                 larg = px2-y
-
-                #disco_x= POSICOES_DISCO[0][0]+195-y*2
-                #disco_y= POSICOES_DISCO[0][1]
                 
                 if dificuldade == niveil_dificuldade[0]:
                     if alt > 0:
-                        stdscr.addstr(alt, larg, 'oo', COR)
+                        stdscr.addstr(alt, larg, 'o', COR)
+                        stdscr.addstr(alt, larg+1, 'o', COR)
                         stdscr.refresh()
                         time.sleep(0.1)
                         stdscr.addstr(alt, larg, '  ')
@@ -242,33 +229,16 @@ def main(stdscr):
                     elif alt <= 0:
                         pass                       
 
-                    #if alt > 0:
-                        #if larg < box[0][1]:
-                        #        stdscr.addstr(disco_y, disco_x, '-o0')
-                        #        stdscr.addstr(alt, larg, 'o', COR)
-                        #        stdscr.refresh()
-                        #        time.sleep(0.1)
-                        #        stdscr.addstr(disco_y, disco_x, '   ')
-                        #        stdscr.addstr(alt, larg, ' ')
-                        #elif alt <= 0:
-                        #    if larg >= box[0][1]:
-                        #        pass
-
-                #if [disco_y, disco_x] == [alt, larg]:
-                #    PERDEU_P = 1
-
             # DESCIDA JOGADOR 2 ----------------------------------------
             for y in range(metade_alcance+40):
                 alt = py2+y-metade_alcance
                 larg = px2-y-metade_alcance
 
-                #disco_x= POSICOES_DISCO[0][0]+195-y*2-metade_alcance-1
-                #disco_y= POSICOES_DISCO[0][1]
-
                 if dificuldade == niveil_dificuldade[0]:
                     if alt > 0:
                         if larg > box[0][1]:
-                            stdscr.addstr(alt, larg, 'oo',COR)
+                            stdscr.addstr(alt, larg, 'o ',COR)
+                            stdscr.addstr(alt, larg+1, 'o', COR)
                             stdscr.refresh()
                             time.sleep(0.1)
                             stdscr.addstr(alt, larg, '  ')
@@ -285,41 +255,52 @@ def main(stdscr):
                         elif alt <= 0:
                             if larg <= box[0][1]:
                                 pass 
-                    #if alt > 0:
-                    #    stdscr.addstr(disco_y, disco_x, '-o0')
-                    #    stdscr.addstr(alt, larg, 'o', COR)
-                    #    stdscr.refresh()
-                    #    time.sleep(0.1)
-                    #    stdscr.addstr(disco_y, disco_x, '   ')
-                    #    stdscr.addstr(alt, larg, ' ')
-                    #elif alt <= 0:
-                    #    if larg <= box[0][1]:
-                    #        pass         
 
                 # COLISAO DA BOLINHA JOGADOR 2 COM A SUPERFICIE ----------------------------
                 for c in range(len(SUPERFICIE_PREDIOS)):
-                    ff = SUPERFICIE_PREDIOS[c]
-                    if [alt, larg] == ff:
-                        PERDEU = 1
+                    superficie = SUPERFICIE_PREDIOS[c]
+                    if dificuldade == niveil_dificuldade[0]:
+                        if ([alt, larg] == superficie) or ([alt, larg+1] == superficie):
+                            PERDEU = 1
+                    elif (dificuldade == niveil_dificuldade[2]) or (dificuldade == niveil_dificuldade[1]):
+                        if ([alt, larg] == superficie):
+                            PERDEU = 1
                        
                 # COLISAO DA BOLINHA JOGADOR 2 COM O PERSONAGEM 1 --------
                 for c in range(len(PERSONAGEM_1_POSICAO)):
-                    a = PERSONAGEM_1_POSICAO[c]
-                    if ([alt, larg] == a) or ([alt+1, larg+1] == a) or ([alt-1, larg-1] == a):
+                    supercicie = PERSONAGEM_1_POSICAO[c]
+                    if ([alt, larg] == supercicie):
                         PONTUACAO_U_2 = int(PONTUACAO_U_2)+int(PONTOS) 
                         if RODADA < rodadas:
                             stdscr.clear()
                             if dificuldade == niveil_dificuldade[0]:
-                                PERSONAGEM_1_POSICAO, SUPERFICIE_PREDIOS, PERSONAGEM_2_POSICAO, BOLINHA, BOLINHA2, box =cenarios.main_cenario_facil(stdscr) 
+                                PERSONAGEM_1_POSICAO, SUPERFICIE_PREDIOS, PERSONAGEM_2_POSICAO, BOLINHA, BOLINHA2, box =cenarios.main_cenario_facil(stdscr)
+                                PERDEU = 1 
                             elif dificuldade == niveil_dificuldade[1]:
                                 PERSONAGEM_1_POSICAO, SUPERFICIE_PREDIOS, PERSONAGEM_2_POSICAO, BOLINHA, BOLINHA2, box =cenarios.main_cenario_medio(stdscr)
+                                PERDEU = 1
                             elif dificuldade == niveil_dificuldade[2]:
                                 PERSONAGEM_1_POSICAO, SUPERFICIE_PREDIOS, PERSONAGEM_2_POSICAO, BOLINHA, BOLINHA2, box =cenarios.main_cenario_medio(stdscr)
+                                PERDEU = 1
                             RODADA = int(RODADA)+int(1)
+                            break
                         elif RODADA == rodadas:
-                            game_over.main_game_over(stdscr)
+                            # QUANDO AS RODADAS ACABAREM
+                            stdscr.clear()
+                            sh, sw = stdscr.getmaxyx()
+                            x_ = sw//2 
+                            y_ = sh//2 
+                            stdscr.addstr(y_, x_, str(usuario))
+                            stdscr.addstr(y_+1, x_, "PONTUAÇÃO: ")
+                            stdscr.addstr(y_+1, x_+11, str(PONTUACAO_U_1))
+                            stdscr.addstr(y_+2, x_, str(usuario2))
+                            stdscr.addstr(y_+3, x_, "PONTUAÇÃO: ")
+                            stdscr.addstr(y_+3, x_+11, str(PONTUACAO_U_2))
 
-                        stdscr.refresh()
+                            key = stdscr.getch()
+                            if key == curses.KEY_ENTER or key in [10, 13]:
+                                usuario, usuario2, dificuldade, rodadas, gravidade = menu.main_menu(stdscr) 
+                                break
                         PERDEU = 1
 
                 if PERDEU == 1:
@@ -328,9 +309,7 @@ def main(stdscr):
             stdscr.addstr(4, 4, JOGADOR[0], COR3)
             CONTADOR = 0
 
-
         stdscr.getch()
-
     stdscr.getch()
 
 curses.wrapper(main)
