@@ -36,6 +36,21 @@ def main_cenario_facil(stdscr):
         x = BOLINHA[0][1]-9+a
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_1_POSICAO.insert(a, [y,x])
+    for a in range(5):
+        y = BOLINHA2[0][0]+1
+        x = BOLINHA2[0][1]-9+a
+        stdscr.addstr(y, x, "O") 
+        PERSONAGEM_2_POSICAO.insert(a, [y,x])
+    for a in range(1):
+        y = BOLINHA2[0][0]+2
+        x = BOLINHA2[0][1]-8+a
+        stdscr.addstr(y, x, "O") 
+        PERSONAGEM_2_POSICAO.insert(a, [y,x])
+    for a in range(1):
+        y = BOLINHA2[0][0]+3
+        x = BOLINHA2[0][1]-7+a
+        stdscr.addstr(y, x, "O") 
+        PERSONAGEM_2_POSICAO.insert(a, [y,x])
 
 
     SUPERFICIE_PREDIOS = []
@@ -94,6 +109,16 @@ def main_cenario_facil(stdscr):
         x = BOLINHA2[0][1]-5+a
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_2_POSICAO.insert(a, [y,x])
+    for a in range(1):
+        y = BOLINHA2[0][0]+2
+        x = BOLINHA2[0][1]-4+a
+        stdscr.addstr(y, x, "O") 
+        PERSONAGEM_2_POSICAO.insert(a, [y,x])
+    for a in range(1):
+        y = BOLINHA2[0][0]+3
+        x = BOLINHA2[0][1]-3+a
+        stdscr.addstr(y, x, "O") 
+        PERSONAGEM_2_POSICAO.insert(a, [y,x])
 
     return PERSONAGEM_1_POSICAO,SUPERFICIE_PREDIOS,PERSONAGEM_2_POSICAO,BOLINHA,BOLINHA2, box
 
@@ -115,7 +140,21 @@ def main_cenario_medio(stdscr):
         x = BOLINHA[0][1]-9+a
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_1_POSICAO.insert(a, [y,x])
-
+    for a in range(5):
+        y = BOLINHA2[0][0]+1
+        x = BOLINHA2[0][1]-9+a
+        stdscr.addstr(y, x, "O") 
+        PERSONAGEM_2_POSICAO.insert(a, [y,x])
+    for a in range(1):
+        y = BOLINHA2[0][0]+2
+        x = BOLINHA2[0][1]-8+a
+        stdscr.addstr(y, x, "O") 
+        PERSONAGEM_2_POSICAO.insert(a, [y,x])
+    for a in range(1):
+        y = BOLINHA2[0][0]+3
+        x = BOLINHA2[0][1]-7+a
+        stdscr.addstr(y, x, "O") 
+        PERSONAGEM_2_POSICAO.insert(a, [y,x])
     SUPERFICIE_PREDIOS = []
 
     #Define a posição, altura e largura das colunas
@@ -168,6 +207,16 @@ def main_cenario_medio(stdscr):
         x = BOLINHA2[0][1]-5+a
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_2_POSICAO.insert(a, [y,x])
+    for a in range(1):
+        y = BOLINHA2[0][0]+2
+        x = BOLINHA2[0][1]-4+a
+        stdscr.addstr(y, x, "O") 
+        PERSONAGEM_2_POSICAO.insert(a, [y,x])
+    for a in range(1):
+        y = BOLINHA2[0][0]+3
+        x = BOLINHA2[0][1]-3+a
+        stdscr.addstr(y, x, "O") 
+        PERSONAGEM_2_POSICAO.insert(a, [y,x])
 
     return PERSONAGEM_1_POSICAO,SUPERFICIE_PREDIOS,PERSONAGEM_2_POSICAO,BOLINHA,BOLINHA2, box
 
@@ -191,7 +240,21 @@ def main_cenario_dificil(stdscr):
         x = BOLINHA[0][1]-9+a
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_1_POSICAO.insert(a, [y,x])
-
+    for a in range(5):
+        y = BOLINHA2[0][0]+1
+        x = BOLINHA2[0][1]-9+a
+        stdscr.addstr(y, x, "O") 
+        PERSONAGEM_2_POSICAO.insert(a, [y,x])
+    for a in range(1):
+        y = BOLINHA2[0][0]+2
+        x = BOLINHA2[0][1]-8+a
+        stdscr.addstr(y, x, "O") 
+        PERSONAGEM_2_POSICAO.insert(a, [y,x])
+    for a in range(1):
+        y = BOLINHA2[0][0]+3
+        x = BOLINHA2[0][1]-7+a
+        stdscr.addstr(y, x, "O") 
+        PERSONAGEM_2_POSICAO.insert(a, [y,x])
     SUPERFICIE_PREDIOS = []
 
     #Define a posição, altura e largura das colunas
@@ -245,6 +308,16 @@ def main_cenario_dificil(stdscr):
     for a in range(5):
         y = BOLINHA2[0][0]+1
         x = BOLINHA2[0][1]-5+a
+        stdscr.addstr(y, x, "O") 
+        PERSONAGEM_2_POSICAO.insert(a, [y,x])
+    for a in range(1):
+        y = BOLINHA2[0][0]+2
+        x = BOLINHA2[0][1]-4+a
+        stdscr.addstr(y, x, "O") 
+        PERSONAGEM_2_POSICAO.insert(a, [y,x])
+    for a in range(1):
+        y = BOLINHA2[0][0]+3
+        x = BOLINHA2[0][1]-3+a
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_2_POSICAO.insert(a, [y,x])
 
