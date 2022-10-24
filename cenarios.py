@@ -42,12 +42,12 @@ def main_cenario_facil(stdscr):
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_1_POSICAO.insert(a, [y,x])
     for a in range(a+5):
-        y = BOLINHA[0][0]+2
+        y = BOLINHA[0][0]-1
         x = BOLINHA[0][1]-8+a
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_1_POSICAO.insert(a, [y,x])
     for a in range(a+6):
-        y = BOLINHA[0][0]+3
+        y = BOLINHA[0][0]-2
         x = BOLINHA[0][1]-7+a
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_1_POSICAO.insert(a, [y,x])
@@ -110,12 +110,12 @@ def main_cenario_facil(stdscr):
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_2_POSICAO.insert(a, [y,x])
     for a in range(a+5):
-        y = BOLINHA2[0][0]+2
+        y = BOLINHA2[0][0]-1
         x = BOLINHA2[0][1]-4+a
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_2_POSICAO.insert(a, [y,x])
     for a in range(a+6):
-        y = BOLINHA2[0][0]+3
+        y = BOLINHA2[0][0]-2
         x = BOLINHA2[0][1]-3+a
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_2_POSICAO.insert(a, [y,x])
@@ -146,12 +146,12 @@ def main_cenario_medio(stdscr):
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_1_POSICAO.insert(a, [y,x])
     for a in range(a+5):
-        y = BOLINHA[0][0]+2
+        y = BOLINHA[0][0]-1
         x = BOLINHA[0][1]-8+a
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_1_POSICAO.insert(a, [y,x])
     for a in range(a+6):
-        y = BOLINHA[0][0]+3
+        y = BOLINHA[0][0]-2
         x = BOLINHA[0][1]-7+a
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_1_POSICAO.insert(a, [y,x])
@@ -208,12 +208,12 @@ def main_cenario_medio(stdscr):
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_2_POSICAO.insert(a, [y,x])
     for a in range(a+5):
-        y = BOLINHA2[0][0]+2
+        y = BOLINHA2[0][0]-1
         x = BOLINHA2[0][1]-4+a
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_2_POSICAO.insert(a, [y,x])
     for a in range(a+6):
-        y = BOLINHA2[0][0]+3
+        y = BOLINHA2[0][0]-2
         x = BOLINHA2[0][1]-3+a
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_2_POSICAO.insert(a, [y,x])
@@ -246,12 +246,12 @@ def main_cenario_dificil(stdscr):
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_1_POSICAO.insert(a, [y,x])
     for a in range(a+5):
-        y = BOLINHA[0][0]+2
+        y = BOLINHA[0][0]-1
         x = BOLINHA[0][1]-8+a
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_1_POSICAO.insert(a, [y,x])
     for a in range(a+6):
-        y = BOLINHA[0][0]+3
+        y = BOLINHA[0][0]-2
         x = BOLINHA[0][1]-7+a
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_1_POSICAO.insert(a, [y,x])
@@ -311,14 +311,14 @@ def main_cenario_dificil(stdscr):
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_2_POSICAO.insert(a, [y,x])
     for a in range(a+5):
-        y = BOLINHA2[0][0]+2
+        y = BOLINHA2[0][0]-1
         x = BOLINHA2[0][1]-4+a
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_2_POSICAO.insert(a, [y,x])
     for a in range(a+6):
-        y = BOLINHA2[0][0]+3
+        y = BOLINHA2[0][0]-2
         x = BOLINHA2[0][1]-3+a
         stdscr.addstr(y, x, "O") 
         PERSONAGEM_2_POSICAO.insert(a, [y,x])
-
+    stdscr.addstr(BOLINHA2[0][0],BOLINHA2[0][1]-3+a)
     return PERSONAGEM_1_POSICAO,SUPERFICIE_PREDIOS,PERSONAGEM_2_POSICAO,BOLINHA,BOLINHA2, box
