@@ -12,8 +12,8 @@ listobj= []
 with open("informacao.json", 'r+') as fp:
     listobj= json.load(fp)
     listobj.append({
-        "nome": "claudio",
-        "pontuacao": 36
+        "nome": "claudio", #usuario, usuario2 //  loop do apend: lista JOGADOR, i in range o len(JOGADOR)
+        "pontuacao": 36 #criar lista p pontuação? 
     })
 with open("informacao.json", 'r+') as json_file:
     json.dump(listobj, json_file, indent= 4)
@@ -25,8 +25,9 @@ ranking2 = {
     "nome": "a",
     "pontuacao": 3
 }
-listobj = []
-players = [ranking1, ranking2]
+
+
+
 
 
 
