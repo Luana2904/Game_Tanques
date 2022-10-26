@@ -7,6 +7,8 @@ import math
 import time
 import menu
 import cenarios
+import json
+
 
 def telacheia():
     kernel32 = ctypes.WinDLL('kernel32')
@@ -30,7 +32,7 @@ def main(stdscr):
     telacheia()
 
     usuario, usuario2, dificuldade, rodadas, gravidade = menu.main_menu(stdscr) 
-    niveil_dificuldade = ["facil ", "medio ", "dificil "]
+    niveil_dificuldade = ["facil ", "dificil "]
 
     stdscr.clear()
     curses.curs_set(0)
@@ -38,27 +40,27 @@ def main(stdscr):
     stdscr.timeout(100)
 
     #-------------------------COLUNAS E POSICAO INICIAL DA BOLA E PERSONAGEM---------------------------------
-
+    
     if dificuldade == niveil_dificuldade[0]:
         PERSONAGEM_1_POSICAO, SUPERFICIE_PREDIOS, PERSONAGEM_2_POSICAO, BOLINHA, BOLINHA2, box = cenarios.main_cenario_facil(stdscr) 
     elif dificuldade == niveil_dificuldade[1]:
         PERSONAGEM_1_POSICAO, SUPERFICIE_PREDIOS, PERSONAGEM_2_POSICAO, BOLINHA, BOLINHA2, box = cenarios.main_cenario_medio(stdscr)
-    elif dificuldade == niveil_dificuldade[2]:
-        PERSONAGEM_1_POSICAO, SUPERFICIE_PREDIOS, PERSONAGEM_2_POSICAO, BOLINHA, BOLINHA2, box = cenarios.main_cenario_medio(stdscr)
 
-    #----------------------------------------------------------------------------------------------------------
-
+        #----------------------------------------------------------------------------------------------------------
+    
     JOGADOR = [usuario, usuario2]# fulano 1, fulaninho
     CONTADOR = 0
     PERDEU = 0
+    PARAR_WHILE = 0
     RODADA = int(1)
     PONTOS = 5
     PONTUACAO_U_1 = int(0)
     PONTUACAO_U_2 = int(0)
-    
-    stdscr.addstr(4, 4, JOGADOR[0], COR3) 
 
-    while True:
+    stdscr.addstr(4, 4, JOGADOR[0], COR3)
+
+    while True: 
+        PARAR_WHILE = 0
         stdscr.addstr(5, 4, "Velocidade:", COR2)
         stdscr.addstr(6, 4, "Angulo:", COR2)
         stdscr.addstr(7, 4, usuario + ": " + str(PONTUACAO_U_1), COR2)
@@ -96,12 +98,12 @@ def main(stdscr):
         metade_alcance = math.ceil(alcance/2)
 
         #-------------------------------------------------------------
+        
+        px= BOLINHA[0][1]-1
+        py= BOLINHA[0][0]-2
 
-        px= BOLINHA[0][1]
-        py= BOLINHA[0][0] 
-
-        px2= BOLINHA2[0][1]-9
-        py2= BOLINHA2[0][0]
+        px2= BOLINHA2[0][1]-12
+        py2= BOLINHA2[0][0]-3
 
 
         if JOGADOR[CONTADOR] == JOGADOR[0]:
@@ -120,7 +122,7 @@ def main(stdscr):
                         stdscr.addstr(alt, larg, '  ')
                     elif alt <= 0:
                         pass
-                elif (dificuldade == niveil_dificuldade[2]) or (dificuldade == niveil_dificuldade[1]):
+                elif  (dificuldade == niveil_dificuldade[1]):
                     if alt > 0:
                         stdscr.addstr(alt, larg, 'o', COR)
                         stdscr.refresh()
@@ -128,6 +130,8 @@ def main(stdscr):
                         stdscr.addstr(alt, larg, ' ')
                     elif alt <= 0:
                         pass
+
+                
 
             # DESCIDA JOGADOR 1 ----------------------------------------
             for y in range(metade_alcance+40):
@@ -145,7 +149,7 @@ def main(stdscr):
                     elif alt <= 0:
                         if larg >= box[1][1]:
                             pass                      
-                elif (dificuldade == niveil_dificuldade[2]) or (dificuldade == niveil_dificuldade[1]):
+                elif (dificuldade == niveil_dificuldade[1]):
                     if alt > 0:
                         if larg < box[1][1]:
                             stdscr.addstr(alt, larg, 'o',COR)
@@ -162,7 +166,7 @@ def main(stdscr):
                     if dificuldade == niveil_dificuldade[0]:
                         if ([alt, larg] == superficie) or ([alt, larg+1] == superficie):
                             PERDEU_P = 1
-                    elif (dificuldade == niveil_dificuldade[2]) or (dificuldade == niveil_dificuldade[1]):
+                    elif (dificuldade == niveil_dificuldade[1]):
                         if ([alt, larg] == superficie):
                             PERDEU_P = 1
 
@@ -171,37 +175,20 @@ def main(stdscr):
                     posicao_jogador_2 = PERSONAGEM_2_POSICAO[c]
                     if [alt, larg] == posicao_jogador_2:
                         PONTUACAO_U_1 = int(PONTUACAO_U_1)+int(PONTOS)
-                        if RODADA < rodadas:
+                        if RODADA < rodadas: # 1 < 1 
                             if dificuldade == niveil_dificuldade[0]:
                                 PERSONAGEM_1_POSICAO, SUPERFICIE_PREDIOS, PERSONAGEM_2_POSICAO, BOLINHA, BOLINHA2, box =cenarios.main_cenario_facil(stdscr) 
                                 PERDEU_P = 1
                             elif dificuldade == niveil_dificuldade[1]:
                                 PERSONAGEM_1_POSICAO, SUPERFICIE_PREDIOS, PERSONAGEM_2_POSICAO, BOLINHA, BOLINHA2, box =cenarios.main_cenario_medio(stdscr)
                                 PERDEU_P = 1
-                            elif dificuldade == niveil_dificuldade[2]:
-                                PERSONAGEM_1_POSICAO, SUPERFICIE_PREDIOS, PERSONAGEM_2_POSICAO, BOLINHA, BOLINHA2, box =cenarios.main_cenario_medio(stdscr)
-                                PERDEU_P = 1
                             RODADA = int(RODADA)+int(1)
                             break
                         elif RODADA == rodadas:
                             # QUANDO AS RODADAS ACABAREM
-                            stdscr.clear()
-                            sh, sw = stdscr.getmaxyx()
-                            x_ = sw//2 
-                            y_ = sh//2 
-                            stdscr.addstr(y_, x_, str(usuario))
-                            stdscr.addstr(y_+1, x_, "PONTUAÇÃO: ")
-                            stdscr.addstr(y_+1, x_+11, str(PONTUACAO_U_1))
-                            stdscr.addstr(y_+2, x_, str(usuario2))
-                            stdscr.addstr(y_+3, x_, "PONTUAÇÃO: ")
-                            stdscr.addstr(y_+3, x_+11, str(PONTUACAO_U_2))
-
-                            key = stdscr.getch()
-                            if key == curses.KEY_ENTER or key in [10, 13]:
-                                stdscr.clear()
-                                usuario, usuario2, dificuldade, rodadas, gravidade = menu.main_menu(stdscr) 
-                                break
-                        
+                            PARAR_WHILE = 1
+        
+                        PERDEU_P = 1
 
                 if PERDEU_P == 1:
                     break
@@ -225,7 +212,7 @@ def main(stdscr):
                         stdscr.addstr(alt, larg, '  ')
                     elif alt <= 0:
                         pass                
-                elif (dificuldade == niveil_dificuldade[2]) or (dificuldade == niveil_dificuldade[1]):
+                elif (dificuldade == niveil_dificuldade[1]):
                     if alt > 0:
                         stdscr.addstr(alt, larg, 'o', COR)
                         stdscr.refresh()
@@ -250,7 +237,7 @@ def main(stdscr):
                     elif alt <= 0:
                         if larg <= box[0][1]:
                             pass 
-                elif (dificuldade == niveil_dificuldade[2]) or (dificuldade == niveil_dificuldade[1]):
+                elif (dificuldade == niveil_dificuldade[1]):
                     if alt > 0:
                         if larg > box[0][1]:
                             stdscr.addstr(alt, larg, 'o',COR)
@@ -267,7 +254,7 @@ def main(stdscr):
                     if dificuldade == niveil_dificuldade[0]:
                         if ([alt, larg] == superficie) or ([alt, larg+1] == superficie):
                             PERDEU = 1
-                    elif (dificuldade == niveil_dificuldade[2]) or (dificuldade == niveil_dificuldade[1]):
+                    elif (dificuldade == niveil_dificuldade[1]):
                         if ([alt, larg] == superficie):
                             PERDEU = 1
                        
@@ -284,41 +271,33 @@ def main(stdscr):
                             elif dificuldade == niveil_dificuldade[1]:
                                 PERSONAGEM_1_POSICAO, SUPERFICIE_PREDIOS, PERSONAGEM_2_POSICAO, BOLINHA, BOLINHA2, box =cenarios.main_cenario_medio(stdscr)
                                 PERDEU = 1
-                            elif dificuldade == niveil_dificuldade[2]:
-                                PERSONAGEM_1_POSICAO, SUPERFICIE_PREDIOS, PERSONAGEM_2_POSICAO, BOLINHA, BOLINHA2, box =cenarios.main_cenario_medio(stdscr)
-                                PERDEU = 1
                             RODADA = int(RODADA)+int(1)
                             break
                         elif RODADA == rodadas:
                             # QUANDO AS RODADAS ACABAREM
-                            stdscr.clear()
-                            sh, sw = stdscr.getmaxyx()
-                            x_ = sw//2 
-                            y_ = sh//2 
-                            stdscr.addstr(y_, x_, str(usuario))
-                            stdscr.addstr(y_+1, x_, "PONTUAÇÃO: ")
-                            stdscr.addstr(y_+1, x_+11, str(PONTUACAO_U_1))
-                            stdscr.addstr(y_+2, x_, str(usuario2))
-                            stdscr.addstr(y_+3, x_, "PONTUAÇÃO: ")
-                            stdscr.addstr(y_+3, x_+11, str(PONTUACAO_U_2))
-
-                            key = stdscr.getch()
-                            if key == curses.KEY_ENTER or key in [10, 13]:
-                                usuario, usuario2, dificuldade, rodadas, gravidade = menu.main_menu(stdscr) 
-                                break
+                            PARAR_WHILE = 1
+                               
                         PERDEU = 1
 
                 if PERDEU == 1:
                     break
 
+                stdscr.addstr(4, 4, JOGADOR[0], COR3)
+                CONTADOR = 0  
+
+        if PARAR_WHILE == 1:
+            stdscr.getch() 
+            p1= {"nome": usuario, "pont": str(PONTUACAO_U_1)}
+            p2= {"nome": usuario2, "pont": str(PONTUACAO_U_2)}
+            lista= [p1, p2]
+
+            with open("informacao.json", 'w') as json_file:
+                json.dump(lista, json_file)
             
+            break
 
-            stdscr.addstr(4, 4, JOGADOR[0], COR3)
-            CONTADOR = 0
-        
-        stdscr.getch()
-
-        
     stdscr.getch()
+    
+    curses.wrapper(main) 
 
 curses.wrapper(main)
